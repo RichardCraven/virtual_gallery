@@ -1,0 +1,215 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 10vh;
+  /*padding: 20px;*/
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: .9em;
+    letter-spacing: .1em;
+    /*padding: .7em 1em;*/
+}
+
+.App-footer {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: lightGrey;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+.inline-block{
+  position:absolute;
+    width:300px;
+    height:50px;
+    /*margin-left:-150px;*/
+    top: 25px;
+    /*background:#063;*/
+    /*bottom:0px;*/
+    left:10%;
+}
+.top-text{
+  color: lightBlue;
+}
+
+//~~~~~~~~~~~~ROOT
+.root{
+  height:100vh;
+  width: 100vw;
+  transition: all 5.5s ease-out;
+}
+
+#artist-text, #gallery-text, #exhibition-text {
+    width: 80px;
+    position: absolute;
+    bottom: 20px;
+}
+#artist-text {
+    left: 10%;
+}
+#gallery-text {
+    left: 20%;
+}
+#exhibition-text {
+    left: 40%;
+}
+#gallery-descriptor {
+    margin-top: 1.5%;
+    /*border: 1px solid black;*/
+    width: 300px;
+    position: relative;
+    margin-left: 23%;
+    text-align: center;
+    display: inline-block;
+}
+#gallery-goback {
+    margin-top: 1.5%;
+    /*border: 1px solid black;*/
+    position: relative;
+    width: 100px;
+    margin-left:3%;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+#gallery-goback:hover{
+  color: green;
+}
+.artist-dropdown, .gallery-dropdown, .exhibition-dropdown{
+    position: absolute;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: .9em;
+    letter-spacing: .07em;
+    padding: .7em 1em;
+    border: solid 1px #000;
+    transition: all 1s;
+    background: white;
+    box-shadow: none;
+}
+.artist-dropdown{
+  left : 10%;
+}
+.gallery-dropdown{
+  left : 20%;
+}
+.exhibition-dropdown{
+  left : 40%;
+}
+.enter-button{
+    position: absolute;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: .9em;
+    letter-spacing: .07em;
+    padding: .7em 1em;
+    border: solid 1px #000;
+    transition: all 1s;
+    background: white;
+    box-shadow: none;
+    left: 60%;
+    cursor: pointer;
+}
+.enter-button:hover{
+    background : lightBlue;
+}
+.menu-panel{
+  padding-top: 10px;
+  width: 100vw;
+  height: 70vh;
+  position: relative;
+  animation-name: fadeIn;
+  animation-timing-function: ease-in;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+  animation-delay: -1s;
+  opacity:0;
+  background: -webkit-linear-gradient(white, lightBlue);
+  background: -o-linear-gradient(white, lightBlue);
+  background: linear-gradient(white, lightBlue);
+  border-top: 1px solid black;
+}
+.welcome-panel{
+  width: 100vw;
+  height: 30vh;
+  position: relative;
+  animation-name: fadeIn;
+  animation-timing-function: ease-in;
+  animation-duration: /*3*/s;
+  animation-fill-mode: forwards;
+  animation-delay: -1s;
+  opacity:0;
+  background: -webkit-linear-gradient(lightBlue, white);
+  background: -o-linear-gradient(lightBlue, white);
+  background: linear-gradient(lightBlue, white);
+}
+
+//~~~~~~~~~~~~~~GALLERY 
+.gallery-container{
+  height: 100%;
+  width: 100%;
+  padding-top: 50px;
+}
+.gallery-layout{
+  height: 700px;
+  width: 1000px;
+  border: 1px solid black;
+  background: white;
+  margin: 0 auto;
+}
+.gallery-menu{
+  width: 1000px;
+  /*border: 1px solid black;*/
+  background: none;
+  margin: 0 auto;
+  text-align: left;
+}
+.room{
+  background-color: grey;
+  height: 100%;
+  width: 100%;
+}
+  @keyframes fadeIn {
+      0%   {opacity: 0;}
+      100% { opacity:1;}
+  }
+
+@keyframes slideInDown {
+    0%   {top:-100px;}
+    50% {top: -50px; opacity: 0.0;}
+    75% {opacity: 0.5;}
+    100% {
+      top:0px;
+      opacity:1;
+    }
+}
+
+@keyframes slideInUp {
+    0%   {bottom:-100px;}
+    50% {bottom: -50px; opacity: 0.0;}
+    75% {opacity: 0.5;}
+    100% {
+      bottom:0px;
+      opacity:1;
+    }
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
