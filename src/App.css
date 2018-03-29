@@ -194,6 +194,7 @@ display: inline;
    display: flex;
    align-items: center;
    justify-content: start;
+   transition: all 1.3s;
 }
 .flexrow{
   height: 50%;
@@ -210,7 +211,7 @@ display: inline;
   border:1px solid black;
   width: 10px;
   height: 100%;
-  transition: all 2s;
+  transition: all 0.9s;
   /*flex: 1 1 auto;*/
   /*flex-shrink: 1;*/
 }
@@ -219,16 +220,17 @@ display: inline;
   border:1px solid black;
   width: 100px;
   height: 100%;
-  flex: 1 1 auto;
-  transition: all 2s;
+  /*flex: 1 1 auto;*/
+  transition: all 0.9s;
 }
 .room.big{
   background-color: #f9f9d1;
   height: 100%;
   width: 200px;
   border:1px solid black;
-  flex: 1 1 auto;
-  transition: all 2s;
+  /*flex: 1 1 auto;*/
+  flex-grow: 20;
+  transition: all 0.9s;
 }
 .big:hover{
   background-color: #f4f4c1;

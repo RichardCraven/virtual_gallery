@@ -28,7 +28,7 @@ class App extends Component {
     return (
       <div className="App">
         
-        <div className="root" style={this.rootStyle()}>
+        <div className="root">
           <Root 
           hideHeader={this.hideHeader}
           showHeader={this.showHeader}
@@ -53,15 +53,45 @@ class Root extends React.Component {
         current_gallery : 'Pacific Art League Gallery',
         current_exhibition : 'Art of Nature Exhibition',
         background : 'white',
+        containerHeight : '50%',
         welcomeAnimation : 2.5,
-        rooms : []
+        rooms : [],
+        colors : ['red','yellow','blue','green','purple','grey','orange','pink']
       };
       this.welcomeStyle = function() {
          return {
            'animationDuration' : this.state.welcomeAnimation+'s',
          }
       };
+      this.roomStyle = function(idx) {
+        console.log(idx)
+        var flexGrow, width;
+        let rooms = this.state.rooms;
+        let colors = this.state.colors;
+        if(this.state.rooms[idx].visible){
+          flexGrow = 20
+          return {
+            background: this.state.colors[idx],
+            flexGrow : flexGrow
+          }
+        } else {
+          console.log('this guy is shrinking', idx)
+          flexGrow = 0.00001
+          width = '0.01px'
 
+          return {
+            background: this.state.colors[idx],
+            flexGrow : flexGrow,
+            width: width,
+            border: 'none'
+          }
+        }
+      };
+      this.containerHeight = function() {
+         return {
+           'height' : this.state.containerHeight,
+         }
+      };
       // this.foo = function(){
       //   var rooms = this.state.rooms.slice();
       //   console.log('in self? invoking function, rooms is', rooms);
@@ -126,7 +156,8 @@ class Root extends React.Component {
     console.log('roomsCopy is ', roomsCopy)
 
     this.setState({
-      rooms : roomsCopy
+      rooms : roomsCopy,
+      containerHeight : '100%'
     })
     // let rooms = props.rooms.slice().map((e) => 
     //   e.visible ? e : false
@@ -201,7 +232,7 @@ class Root extends React.Component {
               </div>
             </div>
             <div className="gallery-main">
-              <Rooms rooms={this.state.rooms} onClick={(el, idx) => this.selectRoom(el, idx)}/>
+              <Rooms rooms={this.state.rooms} onClick={(el, idx) => this.selectRoom(el, idx)} roomStyle={(idx) => this.roomStyle(idx)} containerHeight={() => this.containerHeight()}/>
             </div>
             <div className="gallery-entrance">
                   MAIN ENTRANCE
@@ -212,6 +243,34 @@ class Root extends React.Component {
   }
 };
 // <RandomRooms numArr={numbers} /> 
+function Rooms(props) {
+console.log(props)
+  // let rooms = props.rooms.slice().filter((e) => 
+    // e.visible ? true : false
+    // true
+  // );
+  let rooms = props.rooms.slice().map((i, idx) =>
+    i.size === 'big' ? <div 
+    className="room big" 
+    key={idx} 
+    onClick={props.onClick.bind(this, i, props.rooms.indexOf(i))}
+    style={props.roomStyle.bind(this, props.rooms.indexOf(i))()}
+    >
+    </div> : <div 
+    className="room small" 
+    key={idx} 
+    onClick={props.onClick.bind(this, i, props.rooms.indexOf(i))}
+    style={props.roomStyle.bind(this, props.rooms.indexOf(i))()}
+    >
+    </div>
+  )
+  return (
+    <div className="flexrow flexcontainer" style={props.containerHeight()}>
+        {rooms}
+    </div>
+  );
+}
+
 function RandomRooms(props) {
   const numbers = props.numArr;
   const rooms = numbers.map((number) =>
@@ -221,36 +280,6 @@ function RandomRooms(props) {
     rooms
   );
 }
-function Rooms(props) {
-
-  //THIS LOGIC NEEDS O BE ABSTRACTED OUT. THIS SHOULDN'T BE HANDLING ANY LOGIC
-console.log('PROPS.ROOMS IS ', props.rooms)
-
-  let rooms = props.rooms.slice().filter((e) => 
-    e.visible ? true : false
-  );
-  console.log('YO MOTHERFUCKER ', rooms)
-// debugger
-
-  let barf = rooms.map((i, idx) =>
-    i.size === 'big' ? <div 
-    className="room big" 
-    key={idx} 
-    onClick={props.onClick.bind(this, i, props.rooms.indexOf(i))}>
-    </div> : <div 
-    className="room small" 
-    key={idx} 
-    onClick={props.onClick.bind(this, i, props.rooms.indexOf(i))}>
-    </div>
-  )
-  console.log(rooms)
-  return (
-    <div className="flexrow flexcontainer">
-        {barf}
-    </div>
-  );
-}
-
 
 
 
