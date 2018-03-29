@@ -4,54 +4,56 @@
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  /*height: 80px;*/
+  height: 50px;
+  width: 50px;
 }
 
 .App-header {
   background-color: #222;
-  height: 10vh;
-  /*padding: 20px;*/
+  height: 8.6vh;
   color: white;
   font-family: 'Montserrat', sans-serif;
-    text-transform: uppercase;
-    font-size: .9em;
-    letter-spacing: .1em;
-    /*padding: .7em 1em;*/
+  text-transform: uppercase;
+  font-size: .9em;
+  letter-spacing: .1em;
+}
+/*.App-header h1{
+
+display: inline;
+}*/
+.App-header #headerLeft, #headerRight{
+  display:inline-block;
+  width: 50vw;
+}
+#headerLeft{
+  height: 100%;
 }
 
-.App-footer {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: lightGrey;
+#headerRight{
+  text-align:right;
 }
-
 .App-title {
   font-size: 1.5em;
 }
-
-.App-intro {
-  font-size: large;
-}
-.inline-block{
-  position:absolute;
-    width:300px;
-    height:50px;
-    /*margin-left:-150px;*/
-    top: 25px;
-    /*background:#063;*/
-    /*bottom:0px;*/
-    left:10%;
-}
-.top-text{
-  color: lightBlue;
-}
-
-//~~~~~~~~~~~~ROOT
 .root{
   height:100vh;
   width: 100vw;
   transition: all 5.5s ease-out;
+  /*padding-top: 25px;*/
+}
+.root > div {
+  height: 100%;
+}
+.inline-block{
+  position:absolute;
+  width:300px;
+  height:50px;
+  top: 25px;
+  left:10%;
+}
+.top-text{
+  color: lightBlue;
 }
 
 #artist-text, #gallery-text, #exhibition-text {
@@ -63,14 +65,13 @@
     left: 10%;
 }
 #gallery-text {
-    left: 20%;
+    left: 22.5%;
 }
 #exhibition-text {
-    left: 40%;
+    left: 43.5%;
 }
 #gallery-descriptor {
     margin-top: 1.5%;
-    /*border: 1px solid black;*/
     width: 300px;
     position: relative;
     margin-left: 23%;
@@ -79,7 +80,6 @@
 }
 #gallery-goback {
     margin-top: 1.5%;
-    /*border: 1px solid black;*/
     position: relative;
     width: 100px;
     margin-left:3%;
@@ -106,10 +106,10 @@
   left : 10%;
 }
 .gallery-dropdown{
-  left : 20%;
+  left : 22%;
 }
 .exhibition-dropdown{
-  left : 40%;
+  left : 43%;
 }
 .enter-button{
     position: absolute;
@@ -122,7 +122,7 @@
     transition: all 1s;
     background: white;
     box-shadow: none;
-    left: 60%;
+    left: 65%;
     cursor: pointer;
 }
 .enter-button:hover{
@@ -131,7 +131,7 @@
 .menu-panel{
   padding-top: 10px;
   width: 100vw;
-  height: 70vh;
+  height: 61.4vh;
   position: relative;
   animation-name: fadeIn;
   animation-timing-function: ease-in;
@@ -159,35 +159,105 @@
   background: linear-gradient(lightBlue, white);
 }
 
-//~~~~~~~~~~~~~~GALLERY 
 .gallery-container{
   height: 100%;
   width: 100%;
-  padding-top: 50px;
+  padding-top: 20px;
 }
-.gallery-layout{
-  height: 700px;
+.gallery-main{ 
+  height: 80vh;
   width: 1000px;
   border: 1px solid black;
   background: white;
   margin: 0 auto;
 }
+.gallery-entrance{
+  height: 20px;
+  width: 100px;
+  /*border: 1px solid black;*/
+  background: white;
+  margin: 0 auto;
+  font-size: 0.7em;
+  top: 5px;
+  left: 4.5%;
+  position: relative;
+}
 .gallery-menu{
   width: 1000px;
-  /*border: 1px solid black;*/
   background: none;
   margin: 0 auto;
   text-align: left;
+  margin-bottom: 1%;
 }
-.room{
-  background-color: grey;
+
+.flexcontainer {
+   display: flex;
+   align-items: center;
+   justify-content: start;
+}
+.flexrow{
+  height: 50%;
+  flex-flow: row wrap;
+}
+.flexcol{
+  flex-flow: column wrap;
+}
+/*.flexrow>*,.flexcol>*{
+  flex: 1 1 80px;
+}*/
+.room.hall{
+  background-color: lightgrey;
+  border:1px solid black;
+  width: 10px;
   height: 100%;
-  width: 100%;
+  transition: all 2s;
+  /*flex: 1 1 auto;*/
+  /*flex-shrink: 1;*/
 }
-  @keyframes fadeIn {
-      0%   {opacity: 0;}
-      100% { opacity:1;}
-  }
+.room.small{
+  background-color: #e5f9d1;
+  border:1px solid black;
+  width: 100px;
+  height: 100%;
+  flex: 1 1 auto;
+  transition: all 2s;
+}
+.room.big{
+  background-color: #f9f9d1;
+  height: 100%;
+  width: 200px;
+  border:1px solid black;
+  flex: 1 1 auto;
+  transition: all 2s;
+}
+.big:hover{
+  background-color: #f4f4c1;
+}
+.small:hover{
+  background-color: #d3e5c0;
+}
+
+@media (max-width: 1340px) {
+ .enter-button,.artist-dropdown,.gallery-dropdown,.exhibition-dropdown{
+  font-size : 0.8em;
+ }
+}
+@media (max-width: 1280px) {
+ .enter-button,.artist-dropdown,.gallery-dropdown,.exhibition-dropdown{
+  font-size : 0.7em;
+ }
+}
+@media (max-width: 1073px) {
+ .enter-button,.artist-dropdown,.gallery-dropdown,.exhibition-dropdown{
+  font-size : 0.6em;
+ }
+}
+
+
+@keyframes fadeIn {
+    0%   {opacity: 0;}
+    100% { opacity:1;}
+}
 
 @keyframes slideInDown {
     0%   {top:-100px;}
@@ -208,7 +278,6 @@
       opacity:1;
     }
 }
-
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
