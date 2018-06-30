@@ -24,6 +24,15 @@ class App extends Component {
         });
   };
 
+  componentDidMount() {
+  console.log('HELLO?');
+
+  // var $this = $(ReactDOM.findDOMNode(this));
+  // set el height and width etc.
+  var droppingDiv = document.getElementById('draghere');
+  console.log(droppingDiv);
+  }
+
   render() {
     return (
       <div className="App">
@@ -55,7 +64,17 @@ class Root extends React.Component {
         background : 'white',
         containerHeight : '50%',
         welcomeAnimation : 2.5,
-        rooms : [],
+        rooms: [
+          {size : 'small', visible : true, selected : false},
+          { size: 'big', visible: true, selected: false },
+          { size: 'small', visible: true, selected: false },
+          { size: 'big', visible: true, selected: false },
+          { size: 'big', visible: true, selected: false },
+          { size: 'small', visible: true, selected: false },
+          { size: 'small', visible: true, selected: false },
+          { size: 'small', visible: true, selected: false },
+          { size: 'small', visible: true, selected: false }
+        ],
         colors : ['red','yellow','blue','green','purple','grey','orange','pink']
       };
       this.welcomeStyle = function() {
@@ -63,77 +82,48 @@ class Root extends React.Component {
            'animationDuration' : this.state.welcomeAnimation+'s',
          }
       };
-      this.roomStyle = function(idx) {
-        console.log(idx)
-        var flexGrow, width;
-        let rooms = this.state.rooms;
-        let colors = this.state.colors;
-        if(this.state.rooms[idx].visible){
-          flexGrow = 20
-          return {
-            background: this.state.colors[idx],
-            flexGrow : flexGrow
-          }
-        } else {
-          console.log('this guy is shrinking', idx)
-          flexGrow = 0.00001
-          width = '0.01px'
-
-          return {
-            background: this.state.colors[idx],
-            flexGrow : flexGrow,
-            width: width,
-            border: 'none'
-          }
-        }
-      };
       this.containerHeight = function() {
          return {
            'height' : this.state.containerHeight,
          }
       };
-      // this.foo = function(){
-      //   var rooms = this.state.rooms.slice();
-      //   console.log('in self? invoking function, rooms is', rooms);
-        
-      //   for (var i=0;i<6;i++) {
-      //     rooms.push({'key' : 'room'+i, 'visible' : true})
-      //   }
-      //   console.log('rooms is now', rooms)
-      //   this.setState({
-      //     rooms : rooms
-      //   })
-
-      // }.call(this)
-
-      
   };
-
   componentWillMount() {
     let rooms = this.state.rooms.slice();
-    console.log('in  function, rooms is', rooms);
-    
-    for (var i=0;i<7;i++) {
-      let bigOrSmall
-      Math.random() > 0.5 ? bigOrSmall = 'small' : bigOrSmall = 'big'
-      rooms.push({'size' : bigOrSmall , 'visible' : true})
+    for (var i=0;i<rooms.length;i++) {
+      // let bigOrSmall
+      // Math.random() > 0.5 ? bigOrSmall = 'small' : bigOrSmall = 'big'
+      // rooms.push({'size' : bigOrSmall , 'visible' : true, selected : false})
+      let walls = {
+        north : [true, 'North Wall'],
+        south : [true, 'South Wall'],
+        east : [true, 'East Wall'],
+        west : [true, 'West Wall'],
+        main : [true, '']
+      }
+      rooms[i].walls = walls
     }
-    console.log('rooms is now', rooms)
     this.setState({
       rooms : rooms
     })
+    // console.log(this.state.rooms)
   }
-
   enter(){
-      this.props.hideHeader();
-      this.props.changeRootColor('radial-gradient(circle, lightYellow,  white, lightBlue)');
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+      console.log("File API supported.!");
+    } else {
+      console.log("The File APIs are not fully supported in this browser.");
+    }
+    this.props.hideHeader();
+    this.props.changeRootColor('radial-gradient(circle, lightYellow,  white, lightBlue)');
 
-      this.setState({
-        showHeader : false,
-        showWelcome : false,
-        showGallery : true
-      });
+    this.setState({
+      showHeader : false,
+      showWelcome : false,
+      showGallery : true
+    });
   };
+  
   exit(){
     this.props.showHeader();
       this.setState({
@@ -143,48 +133,180 @@ class Root extends React.Component {
         welcomeAnimation : 0
       });
   };
-
-  selectRoom(e, index) {
-    console.log('in select room, e is ', e, 'index is ', index)
+  selectRoom(index){
     let roomsCopy = this.state.rooms.slice();
 
     for(var i=0;i<roomsCopy.length;i++){
-      if(i !== index){roomsCopy[i].visible = false}
-    }
-
-
-    console.log('roomsCopy is ', roomsCopy)
-
+      if(i !== index){roomsCopy[i].visible = false} else{
+        roomsCopy[i].selected = true;
+      }
+    };
     this.setState({
       rooms : roomsCopy,
       containerHeight : '100%'
     })
-    // let rooms = props.rooms.slice().map((e) => 
-    //   e.visible ? e : false
-    // ).map((i) =>
-    //   i.size === 'big' ? <div className="room big" key={props.rooms.indexOf(i)}></div> : <div className="room small" key={props.rooms.indexOf(i)}></div>
-    // )
-    // console.log(rooms)
-    // return (
-    //   <div className="flexrow flexcontainer">
-    //       {rooms}
-    //   </div>
-    // );
-    // return roomsCopy
+  }
+  selectWall(index, type) {
+    let rooms = this.state.rooms.slice();
+    // console.log('IN SELECT WALL, idx is ', index)
+    // rooms[index].walls[type] = !rooms[index].walls[type];
+    
+    for(var i in rooms[index].walls){
+      if (i === type) { rooms[index].walls[i][0] = 'selected' } else { 
+        rooms[index].walls[i][0] = false
+        rooms[index].walls[i][1] = ''
+      }
+    }
+    this.setState({
+      rooms: rooms
+    })
+  }
+  
+  roomStyle(idx) {
+  var flexGrow, width, color;
+  let rooms = this.state.rooms;
+  // let colors = this.state.colors;
+
+  if (this.state.rooms[idx].visible) {
+    if (this.state.rooms[idx].size === 'big') {
+      color = 'lightBlue';
+      width = '200px'
+    } else {
+      color = 'lightGreen';
+      width = '100px'
+    }
+    flexGrow = 20
+    return {
+      flexGrow: flexGrow,
+      color: color
+    }
+  } else {
+    flexGrow = 0.000001
+    width = '0.01px'
+
+    return {
+
+      flexGrow: flexGrow,
+      width: width,
+      border: 'none'
+    }
+  }
+};
+  wallStyle(idx, type) {
+  // console.log(idx, type)
+  let flexGrow;
+  let rooms = this.state.rooms.slice();
+
+  // if(rooms[idx].walls[type]){
+  //   flexGrow = 20
+  //   return {
+  //     flexGrow: flexGrow
+  //   }
+  // }
+    
+  // let colors = this.state.colors;
+  switch (type) {
+    case 'north':
+      if(rooms[idx].walls[type][0] === true){
+        return {
+          flex: '1 1'
+        }
+      } else if (rooms[idx].walls[type][0] === 'selected'){
+        return {
+          flex: '30 1'
+        }
+      } else if (rooms[idx].walls[type][0] === false) {
+        return {
+          flex: '0.00000001 0.0001'
+        }
+      }
+      break;
+    case 'main':
+      if (rooms[idx].walls[type][0] === true) {
+        return {
+          flex: '6 1'
+        }
+      } else if (rooms[idx].walls[type][0] === false){
+        return {
+          flex: '0.0000001 0.0001'
+        }
+      }
+      break;
+    case 'south':
+      if (rooms[idx].walls[type][0] === true) {
+        return {
+          flex: '1 1'
+        }
+      } else if (rooms[idx].walls[type][0] === 'selected') {
+        return {
+          flex: '30 1'
+        }
+      } else if (rooms[idx].walls[type][0] === false) {
+        return {
+          flex: '0.000001 0.0001'
+        }
+      }
+      break;
+    default:
+      break;
+  }
+};
+  roomClassName(index) {
+    if(this.state.rooms[index].size === 'big'){
+      if (!this.state.rooms[index].selected){
+        return 'room big unselected'
+      } else{
+        return 'room big selected'
+      }
+    } else {
+      if (!this.state.rooms[index].selected) {
+        return 'room small unselected'
+      } else {
+        return 'room small selected'
+      }
+    }
+  }
+
+  resetGallery() {
+    console.log('restting gallery')
+    let rooms = this.state.rooms.slice();
+    for (var i = 0; i < rooms.length; i++) {
+      rooms[i].visible = true; 
+      rooms[i].selected = false;
+
+    }
+    this.setState({
+      rooms: rooms,
+      containerHeight: '50%'
+    })
   }
 
   render() {
+    // console.log('dropping div is ', droppingDiv);
+    
+    function startRead(evt) {
+      // return document.getElementById('file').files[0];
+      var file = document.getElementById("file").files[0];
+      if (file) {
+        //  getAsText(file);
+       return alert("Name: " + file.name + "\n" + "Last Modified Date :" + file.lastModifiedDate);
+      }
+    }
 
-    const numbers = [1,2,3,4,5]
-    const numbers2 = [6,7]
-    const numbers3 = [8,9]
-      // for(var a in this.state.rooms){
-      //     if(this.state.rooms[a].visible){
-      //       return (
-              
-      //       )
-      //     }
-      // }
+    function startReadFromDrag(evt) {
+      var file = evt.dataTransfer.files[0];
+      if (file) {
+        //  getAsText(file);
+        var fileAttr = "Name: " + file.name + "\n" + "Last Modified Date :" + file.lastModifiedDate;
+        document.getElementById("#draghere").text(fileAttr);
+        alert(fileAttr);
+
+      }
+      evt.stopPropagation();
+      evt.preventDefault();
+    }
+
+   
 
     return (
       <div>
@@ -207,7 +329,9 @@ class Root extends React.Component {
             </div>
             <div id="exhibition-text">
                   EXHIBITION
+                  <input type='file' id='file' name='files[]' onChange={event => startRead(event)} multiple/>
             </div>
+                  <div id="draghere" >Drop files here</div>
         </div>}
 
         {this.state.showWelcome && <div className="menu-panel" style={this.welcomeStyle()}>
@@ -223,16 +347,31 @@ class Root extends React.Component {
         }
 
         {this.state.showGallery && <div className="gallery-container">
-            <div className="gallery-menu">
-              <div id="gallery-goback" onClick={() => this.exit()}>
+            <div className="gallery-top">
+              {/* <div id="gallery-goback" onClick={() => this.exit()}>
                 back
-              </div>
+              </div> */}
               <div id="gallery-descriptor">
                 {this.state.current_gallery}
               </div>
             </div>
-            <div className="gallery-main">
-              <Rooms rooms={this.state.rooms} onClick={(el, idx) => this.selectRoom(el, idx)} roomStyle={(idx) => this.roomStyle(idx)} containerHeight={() => this.containerHeight()}/>
+            <div className="flexcon2">
+              <div className="gallery-menu">
+              <div className='toHome' onClick={() => this.exit()} >HOME</div>
+                <div className='backToGallery' onClick={() => this.resetGallery()} >Back to Gallery</div>
+                <div className='contactGallery'>Contact the Gallery</div>
+              </div>
+              <div className="gallery-main">
+              <Rooms 
+                 rooms={this.state.rooms} 
+                 onClick={(el, idx) => this.selectRoom(el, idx)} 
+                 roomStyle={(idx) => this.roomStyle(idx)} 
+                 wallStyle={(idx, type) => this.wallStyle(idx, type)} 
+                 containerHeight={() => this.containerHeight()} 
+                 roomClassName={(idx) => this.roomClassName(idx)}
+                 selectWall={(idx, type) => this.selectWall(idx, type)}
+              />
+              </div>
             </div>
             <div className="gallery-entrance">
                   MAIN ENTRANCE
@@ -242,26 +381,38 @@ class Root extends React.Component {
       );
   }
 };
-// <RandomRooms numArr={numbers} /> 
 function Rooms(props) {
-console.log(props)
-  // let rooms = props.rooms.slice().filter((e) => 
-    // e.visible ? true : false
-    // true
-  // );
+
   let rooms = props.rooms.slice().map((i, idx) =>
     i.size === 'big' ? <div 
-    className="room big" 
+    // className="room big flexcontainer" 
+    className={props.roomClassName.bind(this, idx)()} 
     key={idx} 
-    onClick={props.onClick.bind(this, i, props.rooms.indexOf(i))}
-    style={props.roomStyle.bind(this, props.rooms.indexOf(i))()}
-    >
+    onClick={props.onClick.bind(this, idx)}
+    style={props.roomStyle.bind(this, idx)()}
+    > 
+      {/* <div className="flexrow">
+        <div style={{ height: '30px', backgroundColor: 'red', flex: '1 1 80px'}}></div>
+      </div>
+      <div className="flexrow">
+        <div style={{ height: '30px', backgroundColor: 'green', flex: '1 1 80px' }}></div>
+      </div> */}
+      {/* <div style={{ height: '30px', backgroundColor: 'green', flex: '1 1 80px' }}></div> */}
+      <div className={'north-wall'} style={props.wallStyle.bind(this, idx, 'north')()} onClick={props.selectWall.bind(this, idx, 'north')}>{props.rooms[idx].walls['north'][1]}
+        <div className='picture'></div> <div className='picture'></div> <div className='picture'></div>
+      </div>  
+      <div className={'main-room'} style={props.wallStyle.bind(this, idx, 'main')()} onClick={props.selectWall.bind(this, idx, 'main')}></div>
+      <div className={'south-wall'} style={props.wallStyle.bind(this, idx, 'south')()} onClick={props.selectWall.bind(this, idx, 'south')}>{props.rooms[idx].walls['south'][1]}</div>
     </div> : <div 
-    className="room small" 
+    // className="room small" 
+    className={props.roomClassName.bind(this, idx)()}
     key={idx} 
-    onClick={props.onClick.bind(this, i, props.rooms.indexOf(i))}
-    style={props.roomStyle.bind(this, props.rooms.indexOf(i))()}
+    onClick={props.onClick.bind(this, idx)}
+    style={props.roomStyle.bind(this, idx)()}
     >
+        <div className={'north-wall'} style={props.wallStyle.bind(this, idx, 'north')()} onClick={props.selectWall.bind(this, idx, 'north')}>{props.rooms[idx].walls['north'][1]}</div>
+        <div className={'main-room'} style={props.wallStyle.bind(this, idx, 'main')()} onClick={props.selectWall.bind(this, idx, 'main')}></div>
+        <div className={'south-wall'} style={props.wallStyle.bind(this, idx, 'south')()} onClick={props.selectWall.bind(this, idx, 'south')}>{props.rooms[idx].walls['south'][1]}</div>
     </div>
   )
   return (
@@ -270,19 +421,6 @@ console.log(props)
     </div>
   );
 }
-
-function RandomRooms(props) {
-  const numbers = props.numArr;
-  const rooms = numbers.map((number) =>
-     Math.random() > 0.5 ? <div key={number.toString()}  className='room big' onClick={props.onClick}>{number} </div> : <div key={number.toString()}  className='room small' onClick={props.onClick}>{number} </div>
-  );
-  return (
-    rooms
-  );
-}
-
-
-
 // class Root extends React.Component {
 
 function EnterButton(props) {

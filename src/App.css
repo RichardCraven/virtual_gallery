@@ -8,6 +8,13 @@
   height: 50px;
   width: 50px;
 }
+#draghere{
+  width:300px;
+  height:100px;
+  background-color:rgba(221,214,155,0.4);
+  border:1px dashed black;
+  text-align:center;
+}
 
 .App-header {
   background-color: #222;
@@ -54,6 +61,7 @@ display: inline;
 }
 .top-text{
   color: lightBlue;
+  font-size: 1.5em;
 }
 
 #artist-text, #gallery-text, #exhibition-text {
@@ -74,7 +82,7 @@ display: inline;
     margin-top: 1.5%;
     width: 300px;
     position: relative;
-    margin-left: 23%;
+    /* margin-left: 23%; */
     text-align: center;
     display: inline-block;
 }
@@ -164,12 +172,44 @@ display: inline;
   width: 100%;
   padding-top: 20px;
 }
+.gallery-top{
+  width: 1000px;
+  background: none;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 1%;
+}
+.flexcon2{
+  width: 80vw;
+  margin: 0 auto;
+  display: flex;
+}
 .gallery-main{ 
   height: 80vh;
   width: 1000px;
   border: 1px solid black;
   background: white;
-  margin: 0 auto;
+  flex: 2 2 20em;
+  /* margin: 0 auto; */
+}
+.gallery-menu{ 
+  /* position: fixed; */
+  height: 80vh;
+  width: 1%;
+  /* border: 1px solid black; */
+  background: white;
+  flex: 0.25 1 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+.gallery-menu div{
+  margin: 20px;
+}
+.gallery-menu div:hover{
+  color:green;
+  cursor: pointer;
 }
 .gallery-entrance{
   height: 20px;
@@ -180,24 +220,18 @@ display: inline;
   font-size: 0.7em;
   top: 5px;
   left: 4.5%;
-  position: relative;
+  /* position: relative; */
 }
-.gallery-menu{
-  width: 1000px;
-  background: none;
-  margin: 0 auto;
-  text-align: left;
-  margin-bottom: 1%;
-}
+
 
 .flexcontainer {
    display: flex;
    align-items: center;
    justify-content: start;
-   transition: all 1.3s;
+   transition: all 0.4s;
 }
 .flexrow{
-  height: 50%;
+  /* height: 50%; */
   flex-flow: row wrap;
 }
 .flexcol{
@@ -211,33 +245,121 @@ display: inline;
   border:1px solid black;
   width: 10px;
   height: 100%;
-  transition: all 0.9s;
+  transition: all 0.4s;
   /*flex: 1 1 auto;*/
   /*flex-shrink: 1;*/
 }
 .room.small{
-  background-color: #e5f9d1;
+  /* background-color: #5bee5b; */
+  background-color: #71d171;
   border:1px solid black;
   width: 100px;
   height: 100%;
   /*flex: 1 1 auto;*/
-  transition: all 0.9s;
+  transition: all 0.4s;
+  flex-grow: 20;
+  align-items: initial;
+  /* position: relative; */
+  display:flex;
+  flex-direction: column;
 }
 .room.big{
-  background-color: #f9f9d1;
+  background-color: #add8e6;
   height: 100%;
   width: 200px;
   border:1px solid black;
   /*flex: 1 1 auto;*/
-  flex-grow: 20;
-  transition: all 0.9s;
+  transition: all 0.4s;
+  align-items: initial;
+  /* position: relative; */
+  display:flex;
+  flex-direction: column;
 }
-.big:hover{
-  background-color: #f4f4c1;
+.big.unselected:hover{
+  background-color: #4f7583;
 }
-.small:hover{
-  background-color: #d3e5c0;
+.small.unselected:hover{
+  background-color: #458345;
 }
+.north-wall, .south-wall, .main-room, .picture{
+  display:none;
+  transition: all 0.4s;
+}
+.room.big.selected .north-wall, .room.small.selected .north-wall{
+  display: block;
+  width: 100%;
+  height: 10%;
+  align-items: center;
+  justify-content: center;
+  color:BLACK;
+  line-height: 5em;
+  flex: 1 1;
+  /* position: absolute; */
+}
+.room.big.selected .main-room, .room.small.selected .main-room{
+  display: inline-block;
+  width: 100%;
+  height: 10%;
+  align-items: center;
+  justify-content: center;
+  color:BLACK;
+  line-height: 5em;
+  flex: 6 1;
+  /* position: absolute; */
+}
+.room.big.selected .south-wall, .room.small.selected .south-wall{
+  display: block;
+  width: 100%;
+  height: 10%;
+  align-items: center;
+  justify-content: center;
+  color:BLACK;
+  bottom: 0;
+  line-height: 5em;
+  flex: 1 1;
+  /* position: absolute; */
+}
+
+.room.big.selected .south-wall, .room.big.selected .north-wall{
+  background-color: #3c90df
+}
+.room.big.selected .south-wall:hover, .room.big.selected .north-wall:hover{
+  background-color: #55a1e7
+}
+.room.small.selected .south-wall, .room.small.selected .north-wall{
+  background-color: #1aac1a;
+}
+.room.small.selected .south-wall:hover, .room.small.selected .north-wall:hover{
+  background-color: #5bee5b;
+}
+
+
+.selected>.picture{
+  display: block;
+  height: 200px;
+  width: 350px;
+  background-color: white;
+  border: 1px solid black;
+}
+
+/* room.small.selected .north-wall{
+   display: flex;
+  height: 10%;
+  background-color: lightGrey;
+  flex: 1 1 80px;
+  align-items: center;
+  justify-content: center;
+  color:BLACK;
+} */
+
+/* .room.big.selected .north-wall:hover, .room.small.selected .north-wall:hover{
+  background-color: grey;
+}
+.room.big.selected .south-wall:hover, .room.small.selected .south-wall:hover{
+  background-color: grey;
+} */
+
+
 
 @media (max-width: 1340px) {
  .enter-button,.artist-dropdown,.gallery-dropdown,.exhibition-dropdown{
