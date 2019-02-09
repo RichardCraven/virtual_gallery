@@ -26,7 +26,7 @@ class App extends Component {
 
   componentDidMount() {
   console.log('HELLO?');
-
+  console.log('testing')
   // var $this = $(ReactDOM.findDOMNode(this));
   // set el height and width etc.
   var droppingDiv = document.getElementById('draghere');
